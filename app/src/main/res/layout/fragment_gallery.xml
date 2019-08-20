@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#fff"
+    android:layout_marginBottom="42dp"
+    android:layout_height="match_parent"
+    tools:context=".fragment.GalleryFragment">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:id="@+id/rel_title"
+        android:layout_height="?android:attr/actionBarSize">
+
+
+        <ImageView
+            android:layout_width="33dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="12dp"
+            android:layout_height="33dp"
+            android:id="@+id/img_close"
+            android:src="@drawable/ic_close_blue_24dp"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="15dp"
+            android:textColor="#000"
+            android:layout_centerInParent="true"
+            android:text="Choose image"/>
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/recycler"
+        android:layout_below="@id/rel_title"
+        android:paddingLeft="13dp"
+        android:background="#f2f2f2"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/recycler_item"
+        android:paddingHorizontal="13dp"
+        android:layout_below="@id/recycler"
+        android:layout_marginTop="21dp"
+        android:layout_height="wrap_content">
+
+    </android.support.v7.widget.RecyclerView>
+
+</RelativeLayout>

@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    tools:context=".fragment.PhotoFragment">
+
+    <top.defaults.camera.CameraView
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:mode="image"
+        app:aspectRatio="16:9"
+        app:autoFocus="true"
+        app:facing="back"
+        app:flash="auto"
+        app:showFocusIndicator="true"/>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:id="@+id/list_ratio"
+        android:layout_marginLeft="23dp"
+        android:visibility="gone"
+        android:layout_toRightOf="@id/img_crop_list"
+        android:layout_height="47dp">
+
+    </android.support.v7.widget.RecyclerView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:visibility="visible"
+        android:layout_height="47dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/img_back"
+                android:layout_marginLeft="5dp"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_back"/>
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:id="@+id/img_crop"
+                android:layout_centerHorizontal="true"
+                android:layout_height="match_parent"
+                android:src="@drawable/ratio_crop"/>
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_weight="1"
+                android:visibility="visible"
+                android:id="@+id/img_flash"
+                android:layout_alignParentRight="true"
+                android:layout_height="wrap_content"
+                android:src="@drawable/flash_continue"/>
+    </RelativeLayout>
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:id="@+id/img_crop_list"
+        android:visibility="gone"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ratio_crop"/>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/txt_done"
+        android:text="Done"
+        android:visibility="gone"
+        android:layout_marginHorizontal="14dp"
+        android:gravity="center_vertical"
+        android:textSize="13sp"
+        android:textColor="#fff"
+        android:layout_alignParentRight="true"
+        android:layout_height="47dp"
+/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="78dp"
+        android:layout_marginBottom="42dp"
+        android:layout_alignParentBottom="true"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:orientation="horizontal"
+            android:layout_above="@id/recycler"
+            android:layout_height="78dp">
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/rel_galery"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:id="@+id/img_gallery"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1"
+                    android:src="@drawable/ic_launcher_background"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_gravity="center_vertical"
+                android:id="@+id/rel_picture"
+                android:layout_height="wrap_content">
+                <ImageView
+                    android:layout_width="55dp"
+                    android:layout_height="55dp"
+                    android:layout_centerHorizontal="true"
+                    android:layout_weight="1"
+                    android:id="@+id/img_picture"
+                    android:src="@drawable/camera_button"/>
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:id="@+id/rel_switch"
+                android:layout_gravity="center_vertical"
+                android:layout_height="match_parent">
+                <ImageView
+                    android:layout_width="37dp"
+                    android:layout_height="31dp"
+                    android:layout_centerInParent="true"
+                    android:layout_weight="1"
+                    android:id="@+id/img_switch"
+                    android:src="@drawable/flip_camera"/>
+            </RelativeLayout>
+        </LinearLayout>
+
+    </RelativeLayout>
+    
+</RelativeLayout>
