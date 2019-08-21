@@ -36,7 +36,7 @@ public class GalleryItemAdapter extends RecyclerView.Adapter<GalleryItemAdapter.
     }
 
     public void setActivated(int position) {
-       // modelImages.get(getPosition).getPathItem().get(position).setSelected(false);
+        modelImages.get(getPosition).getPathItem().get(position).setSelected(false);
 
         modelImages.get(getPosition).getPathItem().get(position).setSelected(true);
         notifyDataSetChanged();

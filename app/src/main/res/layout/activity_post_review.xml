@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:focusableInTouchMode="true"
+    android:clickable="true"
+    android:layout_height="match_parent"
+    tools:context=".ui.PostReviewActivity">
+
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_alignParentTop="true"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:orientation="horizontal"
+        android:visibility="visible">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="5dp"
+            android:src="@drawable/ic_back_black" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:text="Post"
+            android:textColor="@color/colorBlue"
+            android:textSize="15sp"
+            android:textStyle="bold" />
+
+    </RelativeLayout>
+
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_below="@id/toolbar"
+        android:layout_height="wrap_content">
+
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/toolbar"
+            android:layout_marginTop="23dp">
+
+            <ImageView
+                android:id="@+id/img_preview"
+                android:layout_width="148dp"
+                android:layout_height="258dp"
+                android:layout_centerHorizontal="true"
+                android:adjustViewBounds="true"
+                android:background="@drawable/bg_selector"
+                android:scaleType="centerInside"
+                android:src="@mipmap/ic_launcher" />
+
+            <View
+                android:id="@+id/view"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:focusableInTouchMode="true"
+                android:layout_below="@id/img_preview"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorGray2" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_height="126dp"
+                android:layout_below="@id/view"
+                android:layout_marginLeft="21dp"
+                android:gravity="top"
+                android:textSize="15sp"
+                android:layout_marginTop="15dp"
+                android:id="@+id/et_caption"
+                android:background="@null"
+                android:hint="Insert Caption" />
+
+            <View
+                android:id="@+id/view_2"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/et_caption"
+                android:layout_marginTop="16dp"
+                android:background="@color/colorGray2" />
+
+            <Spinner
+                android:layout_width="match_parent"
+                android:layout_below="@id/view_2"
+                android:id="@+id/sp_collection"
+                android:layout_marginLeft="21dp"
+                android:layout_height="38dp"></Spinner>
+
+            <View
+                android:id="@+id/view_3"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/sp_collection"
+                android:background="@color/colorGray2" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_below="@id/view_3"
+                android:hint="Insert #Hashtags"
+                android:layout_marginLeft="21dp"
+                android:textSize="15sp"
+                android:id="@+id/et_hashtags"
+                android:background="@null"
+                android:layout_height="38dp" />
+
+            <View
+                android:id="@+id/view_4"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:layout_below="@id/et_hashtags"
+                android:background="@color/colorGray2" />
+
+            <EditText
+                android:layout_width="match_parent"
+                android:layout_below="@id/view_4"
+                android:hint="Tag People"
+                android:gravity="top"
+                android:layout_marginLeft="21dp"
+                android:textSize="15sp"
+                android:layout_marginTop="10dp"
+                android:id="@+id/et_tag_people"
+                android:background="@null"
+                android:layout_height="83dp" />
+
+        </RelativeLayout>
+    </ScrollView>
+</RelativeLayout>

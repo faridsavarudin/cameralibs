@@ -10,8 +10,8 @@ import android.view.Window;
 
 import com.test.cameraandvideo.R;
 import com.test.cameraandvideo.adapter.ContainerAdapter;
-import com.test.cameraandvideo.fragment.GalleryFragment;
-import com.test.cameraandvideo.fragment.PhotoFragment;
+import com.test.cameraandvideo.ui.fragment.GalleryFragment;
+import com.test.cameraandvideo.ui.fragment.PhotoFragment;
 import com.test.cameraandvideo.model.Container;
 
 import java.util.ArrayList;
