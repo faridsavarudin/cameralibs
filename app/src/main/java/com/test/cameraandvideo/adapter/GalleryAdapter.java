@@ -21,6 +21,7 @@ public class GalleryAdapter  extends RecyclerView.Adapter<GalleryAdapter.ViewHol
     List<ModelImages> modelImages;
     OnItemClick onItemClick;
     boolean isActivated = false;
+    ModelImages selectedModelImage = null;
 
     public interface OnItemClick {
         public void itemClick(int position);
@@ -50,6 +51,7 @@ public class GalleryAdapter  extends RecyclerView.Adapter<GalleryAdapter.ViewHol
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
+
         holder.tvFolder.setText(modelImages.get(position).getFolder());
 
         Glide.with(context).load("file://" + modelImages.get(position).getPathItem().get(0).getPath())

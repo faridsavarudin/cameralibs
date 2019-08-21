@@ -1,6 +1,5 @@
 package com.test.cameraandvideo.model;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -8,7 +7,6 @@ public class ModelImages {
     String folder;
     List<PathItem> pathItem;
     private boolean selected;
-    private boolean selectedItem;
 
     public String getFolder() {
         return folder;
@@ -34,19 +32,11 @@ public class ModelImages {
         this.selected = selected;
     }
 
-    public boolean isSelectedItem() {
-        return selectedItem;
-    }
-
-    public void setSelectedItem(boolean selectedItem) {
-        this.selectedItem = selectedItem;
-    }
 
     public ModelImages(String folder, List<PathItem> pathItem, boolean selected, boolean selectedItem) {
         this.folder = folder;
         this.pathItem = pathItem;
         this.selected = selected;
-        this.selectedItem = selectedItem;
     }
 
     public ModelImages() {

@@ -2,6 +2,7 @@ package com.test.cameraandvideo.adapter;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +25,8 @@ public class GalleryItemAdapter extends RecyclerView.Adapter<GalleryItemAdapter.
     private int getPosition;
 
     public interface OnItemClickItem {
-        public void itemClickItem(int position);
+        void itemClickItem(int position, int getPosition);
+        void unselected();
     }
 
     public GalleryItemAdapter(Context context, List<ModelImages> modelImages, int getPosition, OnItemClickItem onItemClick) {
@@ -35,16 +37,23 @@ public class GalleryItemAdapter extends RecyclerView.Adapter<GalleryItemAdapter.
 
     }
 
-    public void setActivated(int position) {
-        modelImages.get(getPosition).getPathItem().get(position).setSelected(false);
-
-        modelImages.get(getPosition).getPathItem().get(position).setSelected(true);
+    public void setActivated(int getPosition, int position) {
+        if (modelImages.get(getPosition).getPathItem().get(position).isSelected()) {
+            modelImages.get(getPosition).getPathItem().get(position).setSelected(false);
+            onItemClick.unselected();
+            notifyDataSetChanged();
+        }
+        else {
+            setClearSelected(getPosition, position);
+            modelImages.get(getPosition).getPathItem().get(position).setSelected(true);
+            notifyDataSetChanged();
+        }
         notifyDataSetChanged();
     }
 
-    public void setClearSelected() {
+    public void setClearSelected(int getPosition, int position) {
         for (int i = 0; i < modelImages.size(); i++) {
-            modelImages.get(i).setSelectedItem(false);
+            modelImages.get(getPosition).getPathItem().get(i).setSelected(false);
         }
         notifyDataSetChanged();
     }
@@ -63,7 +72,7 @@ public class GalleryItemAdapter extends RecyclerView.Adapter<GalleryItemAdapter.
                 .into(holder.imageView);
 
         holder.itemView.setOnClickListener(v ->
-                onItemClick.itemClickItem(position));
+                onItemClick.itemClickItem(getPosition, position));
 
         if (!modelImages.get(getPosition).getPathItem().get(position).isSelected()) {
             holder.linearLayout.setBackgroundColor(context.getResources().getColor(R.color.colorWhite));

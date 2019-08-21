@@ -1,11 +1,13 @@
 package com.test.cameraandvideo.ui;
 
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
 import android.net.Uri;
 import android.os.Environment;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.test.cameraandvideo.R;
@@ -33,11 +36,18 @@ import java.util.List;
 
 public class PreviewActivity extends AppCompatActivity {
 
+    private static final String FILE ="FILE" ;
     ImageView collageView;
     private List<File> mediaFiles = new ArrayList<>();
     MultiTouchListener multiTouchListener;
     private TextView txtNext;
     private RelativeLayout relCapture;
+
+    public static Intent generateIntent(@NonNull Context context, String file) {
+        Intent intent = new Intent(context, PreviewActivity.class);
+        intent.putExtra(FILE, file);
+        return intent;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,14 +68,24 @@ public class PreviewActivity extends AppCompatActivity {
         Log.e("maxx", maxX+"");
         Log.e("maxY", maxY+"");
 
-        getFiles();
-        enterFullscreen();
+        if (getIntent().getExtras()!=null){
+            String url = getIntent().getExtras().getString(FILE);
+                Glide.with(this).load("file://"+url).into(collageView);
+        }else {
+            getFiles();
+        }
 
         txtNext.setOnClickListener(v->{
             takeScreenshot();
         });
     }
 
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        enterFullscreen();
+    }
 
     private void getFiles() {
         File file = new File(Commons.MEDIA_DIR);
@@ -137,18 +157,17 @@ public class PreviewActivity extends AppCompatActivity {
             outputStream.flush();
             outputStream.close();
 
-            //openScreenshot(imageFile);
+            startIntent(imageFile);
         } catch (Throwable e) {
             // Several error may come out with file handling or DOM
             e.printStackTrace();
         }
     }
 
-    private void openScreenshot(File imageFile) {
-        Intent intent = new Intent();
-        intent.setAction(Intent.ACTION_VIEW);
-        Uri uri = Uri.fromFile(imageFile);
-        intent.setDataAndType(uri, "image/*");
+    private void startIntent(File imageFile) {
+        Intent intent = new Intent(this, PostReviewActivity.class);
+        intent.putExtra("file", imageFile);
         startActivity(intent);
     }
+
 }

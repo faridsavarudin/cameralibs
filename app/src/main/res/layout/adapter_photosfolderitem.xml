@@ -3,7 +3,6 @@
     android:layout_width="103dp"
     android:layout_marginTop="13dp"
     android:layout_marginRight="13dp"
-    android:background="#DDC36E"
     android:layout_height="103dp">
 
 

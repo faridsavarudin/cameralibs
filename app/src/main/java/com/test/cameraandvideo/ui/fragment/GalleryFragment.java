@@ -1,6 +1,7 @@
 package com.test.cameraandvideo.ui.fragment;
 
 
+import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
@@ -10,10 +11,13 @@ import android.support.v4.app.Fragment;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import com.test.cameraandvideo.ui.MainActivity;
 import com.test.cameraandvideo.R;
@@ -21,7 +25,9 @@ import com.test.cameraandvideo.adapter.GalleryAdapter;
 import com.test.cameraandvideo.adapter.GalleryItemAdapter;
 import com.test.cameraandvideo.model.ModelImages;
 import com.test.cameraandvideo.model.PathItem;
+import com.test.cameraandvideo.ui.PreviewActivity;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -38,6 +44,8 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.OnItemCl
     private GalleryItemAdapter adapterItem;
     private RecyclerView recyclerView, recyclerItem;
     List<PathItem> pathAll = new ArrayList<>();
+    private String imageSelected;
+    private TextView tvAdd;
 
 
     @Override
@@ -45,15 +53,20 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.OnItemCl
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_gallery, container, false);
 
-      //  enterFullscreen();
         recyclerView = v.findViewById(R.id.recycler);
         imgClose = v.findViewById(R.id.img_close);
+        tvAdd = v.findViewById(R.id.tv_add);
         recyclerItem = v.findViewById(R.id.recycler_item);
 
         listImagePath();
 
         imgClose.setOnClickListener(onclick->{
             ((MainActivity)getActivity()).loadFragment(new PhotoFragment());
+        });
+
+        tvAdd.setOnClickListener(onclick->{
+            File file = new File(imageSelected);
+            startActivity(PreviewActivity.generateIntent(getContext(), imageSelected));
         });
 
         return v;
@@ -109,7 +122,6 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.OnItemCl
                 obj_model.setFolder(cursor.getString(column_index_folder_name));
                 obj_model.setPathItem(al_path);
                 obj_model.setSelected(false);
-                obj_model.setSelectedItem(false);
                 modelImages.add(obj_model);
             }
             pathAll.add(new PathItem(absolutePathOfImage, false));
@@ -131,16 +143,31 @@ public class GalleryFragment extends Fragment implements GalleryAdapter.OnItemCl
 
     @Override
     public void itemClick(int position) {
-        adapterItem = new GalleryItemAdapter(getContext(),modelImages, position, this);
-     //   adapterItem.setClearSelected();
-        recyclerItem.setAdapter(adapterItem);
         adapter.setActivated(true, position);
+        adapterItem = new GalleryItemAdapter(getContext(),modelImages, position, this);
+        recyclerItem.setAdapter(adapterItem);
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        enterFullscreen();
+    }
 
     @Override
-    public void itemClickItem(int position) {
-        adapterItem.setActivated(position);
+    public void itemClickItem(int getPosition, int position) {
+        imageSelected = modelImages.get(getPosition).getPathItem().get(position).getPath();
+        Log.e("lokasi22", imageSelected);
+        if (imageSelected!=null){
+            tvAdd.setVisibility(View.VISIBLE);
+        }else
+            tvAdd.setVisibility(View.GONE);
+        adapterItem.setActivated(getPosition, position);
+    }
+
+    @Override
+    public void unselected() {
+        tvAdd.setVisibility(View.GONE);
     }
 
     private void enterFullscreen() {

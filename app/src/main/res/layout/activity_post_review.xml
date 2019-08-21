@@ -56,7 +56,6 @@
                 android:layout_height="258dp"
                 android:layout_centerHorizontal="true"
                 android:adjustViewBounds="true"
-                android:background="@drawable/bg_selector"
                 android:scaleType="centerInside"
                 android:src="@mipmap/ic_launcher" />
 
