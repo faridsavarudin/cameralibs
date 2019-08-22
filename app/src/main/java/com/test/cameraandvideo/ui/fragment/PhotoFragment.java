@@ -5,6 +5,7 @@ import android.Manifest;
 import android.content.Context;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -32,7 +33,9 @@ import com.test.cameraandvideo.R;
 import com.test.cameraandvideo.adapter.ContainerAdapter;
 import com.test.cameraandvideo.options.AspectRatioItem;
 import com.test.cameraandvideo.options.Commons;
+import com.test.cameraandvideo.utils.ImageLoadUtils;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,10 +48,8 @@ import top.defaults.camera.PhotographerHelper;
 
 public class PhotoFragment extends Fragment implements SizeAdapter.OnItemClickListener {
 
-    private List<Container> arrayList = new ArrayList();
     RecyclerView  recyclerViewSize;
     ImageView imgCrop, imgCropList, imgPicture, imgBack, imgFlash, imgGallery;
-    ContainerAdapter adapter;
     Photographer photographer;
     PhotographerHelper photographerHelper;
     CameraView cameraView;
@@ -58,6 +59,8 @@ public class PhotoFragment extends Fragment implements SizeAdapter.OnItemClickLi
     List<AspectRatioItem> supportedAspectRatios;
     List<AspectRatioItem> supportedAspectRatios2;
     AspectRatioItem itemsSelected;
+    private Bitmap getLastImage;
+    ImageLoadUtils imageLoadUtils;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -73,6 +76,8 @@ public class PhotoFragment extends Fragment implements SizeAdapter.OnItemClickLi
         txtDone = view.findViewById(R.id.txt_done);
         imgPicture = view.findViewById(R.id.img_picture);
         cameraView = view.findViewById(R.id.preview);
+
+        imageLoadUtils = new ImageLoadUtils();
 
         permission();
         return view;
@@ -180,6 +185,9 @@ public class PhotoFragment extends Fragment implements SizeAdapter.OnItemClickLi
         imgGallery.setOnClickListener(v->{
             ((MainActivity)getActivity()).loadFragment(new GalleryFragment());
         });
+
+        getLastImage = imageLoadUtils.getLastImage(getContext());
+        imgGallery.setImageBitmap(getLastImage);
 
     }
 
