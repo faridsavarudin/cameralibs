@@ -66,6 +66,10 @@ public class GalleryAdapter  extends RecyclerView.Adapter<GalleryAdapter.ViewHol
         if (!modelImages.get(position).isSelected()){
             holder.linearLayout.setBackgroundColor(context.getResources().getColor(R.color.colorGray));
         }
+
+        holder.linearLayout.setOnClickListener(v->{
+            onItemClick.itemClick(position);
+        });
     }
 
 

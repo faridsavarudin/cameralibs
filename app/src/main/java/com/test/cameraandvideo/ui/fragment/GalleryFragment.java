@@ -34,9 +34,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
 public class GalleryFragment extends Fragment implements GalleryAdapter.OnItemClick, GalleryItemAdapter.OnItemClickItem {
     public static List<ModelImages> modelImages = new ArrayList<>();
     private GalleryAdapter adapter;

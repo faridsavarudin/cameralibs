@@ -5,9 +5,8 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.Point;
-import android.net.Uri;
-import android.os.Environment;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -18,10 +17,10 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.test.cameraandvideo.R;
 import com.test.cameraandvideo.collageviews.MultiTouchListener;
 import com.test.cameraandvideo.options.Commons;
+import com.test.cameraandvideo.utils.ImageLoader;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -36,12 +35,17 @@ import java.util.List;
 
 public class PreviewActivity extends AppCompatActivity {
 
-    private static final String FILE ="FILE" ;
-    ImageView collageView;
+    private static final String FILE = "FILE";
+    RelativeLayout collageView;
+    ImageView imageView, imgAdd;
+    TextView txtX, txtY, txtScale;
     private List<File> mediaFiles = new ArrayList<>();
     MultiTouchListener multiTouchListener;
     private TextView txtNext;
     private RelativeLayout relCapture;
+    ImageLoader imageLoader;
+
+    int size = 1;
 
     public static Intent generateIntent(@NonNull Context context, String file) {
         Intent intent = new Intent(context, PreviewActivity.class);
@@ -53,29 +57,42 @@ public class PreviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_preview);
+
         collageView = findViewById(R.id.collageView1);
         txtNext = findViewById(R.id.txt_next);
+        txtX = findViewById(R.id.positionX);
+        imgAdd = findViewById(R.id.img_add);
+        txtY = findViewById(R.id.positionY);
+        txtScale = findViewById(R.id.scale);
         relCapture = findViewById(R.id.rel_capture);
         multiTouchListener = new MultiTouchListener();
 
-        collageView.setOnTouchListener(multiTouchListener);
+        // collageView.setOnTouchListener(multiTouchListener);
+        imageLoader = new ImageLoader(this);
+
+        imgAdd.setOnClickListener(v -> {
+            Intent intent = new Intent(this, GalleryActivity.class);
+            startActivityForResult(intent, 2);
+        });
 
         Display mdisp = getWindowManager().getDefaultDisplay();
         Point mdispSize = new Point();
         mdisp.getSize(mdispSize);
-        int maxX = mdispSize.x;
-        int maxY = mdispSize.y;
-        Log.e("maxx", maxX+"");
-        Log.e("maxY", maxY+"");
 
-        if (getIntent().getExtras()!=null){
+        if (getIntent().getExtras() != null) {
             String url = getIntent().getExtras().getString(FILE);
-                Glide.with(this).load("file://"+url).into(collageView);
-        }else {
+            imageLoader.loadImages(url);
+            RelativeLayout relativeLayout = imageLoader.loadImages(url);
+
+            relativeLayout.setOnTouchListener(multiTouchListener);
+
+            collageView.addView(relativeLayout);
+            //  Glide.with(this).load("file://"+url).into(collageView);
+        } else {
             getFiles();
         }
 
-        txtNext.setOnClickListener(v->{
+        txtNext.setOnClickListener(v -> {
             takeScreenshot();
         });
     }
@@ -93,8 +110,8 @@ public class PreviewActivity extends AppCompatActivity {
             mediaFiles.clear();
             File[] files = file.listFiles();
             mediaFiles.addAll(Arrays.asList(files));
-            file = mediaFiles.get(mediaFiles.size()-1);
-            Glide.with(this).load(file).into(collageView);
+            file = mediaFiles.get(mediaFiles.size() - 1);
+            //      Glide.with(this).load(file).into(collageView);
 
         }
     }
@@ -118,10 +135,9 @@ public class PreviewActivity extends AppCompatActivity {
             collageView.getLocationInWindow(location);
             int x = location[0];
             int y = location[1];
-            Log.e("position x", collageView.getX() + "");
-            Log.e("position y", collageView.getY() + "");
-            Log.e("scale X", collageView.getScaleX() + "");
-            Log.e("scale y", collageView.getScaleY() + "");
+            txtX.setText("X =" + collageView.getX());
+            txtY.setText("Y =" + collageView.getY());
+            txtScale.setText("Scale =" + collageView.getScaleX());
         }
     }
 
@@ -137,11 +153,26 @@ public class PreviewActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(uiOptions);
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 2) {
+            {
+                if (data != null) {
+                    String message = data.getStringExtra("MESSAGE");
+                    imageLoader.loadImages(message);
+                    RelativeLayout relativeLayout = imageLoader.loadImages(message);
+                    relativeLayout.setOnTouchListener(multiTouchListener);
+                    collageView.addView(relativeLayout);
+                }
+            }
+        }
+
+    }
 
     private void takeScreenshot() {
         Date now = new Date();
         android.text.format.DateFormat.format("yyyy-MM-dd_hh:mm:ss", now);
-
         try {
             String mPath = Commons.MEDIA_DIR + "/" + now + ".jpg";
 

@@ -41,6 +41,7 @@ public class ImageLoadUtils {
 
 
         //create folder
+        modelImages.clear();
         while (cursor.moveToNext()) {
             ModelImages obj_model = new ModelImages();
             absolutePathOfImage = cursor.getString(column_index_data);
@@ -78,6 +79,10 @@ public class ImageLoadUtils {
         Collections.sort(modelImages, Comparator.comparing(ModelImages::getFolder));
 
         return modelImages;
+    }
+
+    public List<ModelImages> getListImage(){
+       return modelImages;
     }
 
     public Bitmap getLastImage(Context context){
